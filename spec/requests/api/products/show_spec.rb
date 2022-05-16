@@ -1,5 +1,7 @@
 RSpec.describe 'GET /api/products/:id' do
   let!(:product) { create(:product, name: 'tshirt') }
+  let!(:rating_high) { create(:rating, score: 5, product:) }
+  let!(:rating_low) { create(:rating, score: 0, product:) }
 
   subject { response }
 
@@ -16,6 +18,10 @@ RSpec.describe 'GET /api/products/:id' do
 
     it 'is expected to return only one product' do
       expect(response_json['product'].is_a?(Hash)).to eq true
+    end
+
+    it 'is expected to return a rating for the product' do
+      expect(response_json['product']['rating']).to eq 2.5
     end
   end
 
